@@ -1,5 +1,5 @@
 <template>
-  <video-player class="video-player-box"
+  <video-player class="vjs-custom-skin"
                      ref="videoPlayer"
                      :options="playerOptions"
                      :playsinline="true"

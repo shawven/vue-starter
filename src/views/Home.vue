@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <base-video-player class="video-js"></base-video-player>
+    <base-video-player></base-video-player>
   </div>
 </template>
 
