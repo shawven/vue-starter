@@ -91,7 +91,7 @@ module.exports = {
                   chunks: 'initial' // only package third parties that are initially dependent
                 },
                 commons: {
-                  name: 'chunk-commons',
+                  name: 'chunk-dev',
                   test: resolve('src/components'), // can customize your rules
                   minChunks: 3, //  minimum common number
                   priority: 5,

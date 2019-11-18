@@ -8,11 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "0.18.0",
+    "qs": "^6.7.0",
     "core-js": "^2.6.5",
-    "videojs-contrib-hls": "^5.15.0",
+    "video.js": "^7.6.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "vue-video-player": "^5.0.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

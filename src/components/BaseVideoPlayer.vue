@@ -1,65 +1,61 @@
 <template>
-  <video-player class="vjs-custom-skin"
-                     ref="videoPlayer"
-                     :options="playerOptions"
-                     :playsinline="true"
-                     customEventName="customstatechangedeventname"
-
-                     @play="onPlayerPlay($event)"
-                     @pause="onPlayerPause($event)"
-                     @statechanged="playerStateChanged($event)"
-                     @ready="playerReadied">
-  </video-player>
+  <div class="vjs-custom-skin">
+    <video ref="videoPlayer" class="video-js" ></video>
+  </div>
 </template>
 
 <script>
+import videojs from 'video.js'
 // Similarly, you can also introduce the plugin resource pack you want to use within the component
 // import 'some-videojs-plugin'
 export default {
   name: 'BaseVideoPlayer',
+  props: {
+    options: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    globalOptions: {
+      type: Object,
+      default: () => ({
+        autoplay: false,
+        controls: true,
+        preload: 'auto',
+        fluid: false,
+        muted: false,
+        controlBar: {
+          remainingTimeDisplay: false,
+          playToggle: {},
+          progressControl: {},
+          fullscreenToggle: {},
+          volumeMenuButton: {
+            inline: false,
+            vertical: true
+          }
+        },
+        techOrder: ['html5'],
+        plugins: {}
+      })
+    }
+  },
   data () {
     return {
-      playerOptions: {
-        // videojs options
-        muted: false,
-        language: 'en',
-        playbackRates: [0.7, 1.0, 1.5, 2.0],
-        width: 1440,
-        sources: [{
-          type: 'video/mp4',
-          src: 'https://wqbdoc.oss-cn-shenzhen.aliyuncs.com/videos/20190801083347.mp4'
-        }]
-      }
+      player: null
     }
   },
   mounted () {
-    console.log('this is current player instance object', this.player)
+    const options = Object.assign({}, this.globalOptions, this.options)
+    this.player = videojs(this.$refs.videoPlayer, options, function onPlayerReady () {
+      console.log('onPlayerReady', this)
+      this.play()
+    })
+    this.player.play()
   },
-  computed: {
-    player () {
-      return this.$refs.videoPlayer.player
-    }
-  },
-  methods: {
-    // listen event
-    onPlayerPlay (player) {
-      console.log('player play!', player)
-    },
-    onPlayerPause (player) {
-      console.log('player pause!', player)
-    },
-    // ...player event
-
-    // or listen state event
-    playerStateChanged (playerCurrentState) {
-      console.log('player current update state', playerCurrentState)
-    },
-
-    // player is ready
-    playerReadied (player) {
-      console.log('the player is readied', player)
-      // you can use it to do something...
-      // player.[methods]
+  beforeDestroy () {
+    if (this.player) {
+      this.player.dispose()
     }
   }
 }
